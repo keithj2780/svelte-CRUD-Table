@@ -42,18 +42,20 @@
                     <td style={'width:'+col.width+'px'}>
                         <div  class="resizableHeader">
                             <div class="colDesc">{col.description}</div>
-                            <div class='resizer'
-                                on:pointerdown={(e)=>resizemousedown(e,colIdx)}
-                                on:pointermove={(e)=>resizemousemove(e,colIdx)}
-                                on:pointerup={(e)=>resizemouseup(e,colIdx)}
-                                />
+                            {#if col.resizable}
+                                <div class='resizer'
+                                    on:pointerdown={(e)=>resizemousedown(e,colIdx)}
+                                    on:pointermove={(e)=>resizemousemove(e,colIdx)}
+                                    on:pointerup={(e)=>resizemouseup(e,colIdx)}
+                                    />
+                            {/if}
                         </div>
                     </td>
                 {/if}
             {/each}
             {#if config.options.includes('CREATE')}
                 <td class="td">
-                    <div class="btnHoverGreen" on:click={()=>{data.push({}); rowIdxInEditMode=data.length-1;dispatch('addrow')}}>
+                    <div class="btnHoverGreen" on:click={()=>{data.push({}); rowIdxInEditMode=data.length-1;dispatch('reqaddrow')}}>
                         {@html iconcreate}
                     </div>
                 </td>
@@ -61,71 +63,74 @@
      </thead>
 
         {#each data as row, rowIdx}
-            <tr class={rowIdx%2?'trOdd':'trEven'} 
-                on:click={()=>{if (rowIdxInEditMode!=rowIdx) rowIdxInEditMode=-1;}}
-                on:dblclick={()=>{if (config.options.includes('DBLCLICKEDIT')) rowIdxInEditMode=rowIdx;}}
-                >
-                {#each config.columns_setting as col}
-                    {#if col.show}
-                        <td class="td">
-                            <!-- If we're editing this row -->
-                            {#if rowIdx == rowIdxInEditMode && col.edit}
-                                {#if col.type == 'select'}
-                                    <select bind:value={row[col.name]}>
-                                        {#each col.options as opt}
-                                            <option value={opt.value}>{opt.text}</option>
-                                        {/each}
-                                    </select>
-                                {:else if col.type == 'text'}
-                                    <textarea bind:value={row[col.name]} rows={4} style={'width:'+col.width+'px;'}></textarea>
-                                {:else if col.type == 'date'}
-                                    <input bind:value={row[col.name]} type="date" style={'width:'+col.width+'px;'}/>
-                                {:else if col.type == 'color'}
-                                    <input bind:value={row[col.name]} type="color" style={'width:'+col.width+'px;'}/>
-                                {:else if col.type == 'email'}
-                                    <input bind:value={row[col.name]} type="email" style={'width:'+col.width+'px;'}/>
-                                {/if}
-                            <!-- Just display the data -->
-                            {:else if row[col.name] != undefined}
-                                {#if col.type=='html'}
-                                    {@html row[col.name]}
-                                {:else if col.type=='select'}
-                                    <!-- this next check is only required because a data value may have an unknown option value -->
-                                    {#if col.options.find(option=>option.value==row[col.name])}
-                                        {col.options.find(option=>option.value==row[col.name]).text}
-                                    {:else}
-                                        No option for {row[col.name]}
+            {#if rowIdx >= config.row_settings.firstRow && rowIdx < config.row_settings.lastRow}
+                <tr class={rowIdx%2?'trOdd':'trEven'} 
+                    on:click={()=>{if (rowIdxInEditMode!=rowIdx) rowIdxInEditMode=-1;}}
+                    on:dblclick={()=>{if (config.options.includes('DBLCLICKEDIT')) rowIdxInEditMode=rowIdx;}}
+                    >
+                    {#each config.columns_setting as col}
+                        {#if col.show}
+                            <td class="td">
+                                <!-- If we're editing this row -->
+                                {#if rowIdx == rowIdxInEditMode && col.edit}
+                                    {#if col.type == 'select'}
+                                        <select bind:value={row[col.name]}>
+                                            {#each col.options as opt}
+                                                <option value={opt.value}>{opt.text}</option>
+                                            {/each}
+                                        </select>
+                                    {:else if col.type == 'date'}
+                                        <input bind:value={row[col.name]} type="date" style={'width:'+col.width+'px;'}/>
+                                    {:else if col.type == 'color'}
+                                        <input bind:value={row[col.name]} type="color" style={'width:'+col.width+'px;'}/>
+                                    {:else if col.type == 'email'}
+                                        <input bind:value={row[col.name]} type="email" style={'width:'+col.width+'px;'}/>
+                                    {:else if col.type == 'text' || col.type == 'html'  || col.type == undefined }
+                                        <textarea bind:value={row[col.name]} rows={4} style={'width:'+col.width+'px;'}></textarea>
                                     {/if}
-                                {:else if col.type=='color'}
-                                    <input value={row[col.name]} type="color" disabled/>
-                                {:else if col.type=='date'}
-                                    {row[col.name]}
-                                {:else}
-                                    {row[col.name]}
+                                <!-- Just display the data -->
+                                {:else if row[col.name] != undefined}
+                                    {#if col.type=='html'}
+                                        <!-- usual warnings about displaying raw HTML -->
+                                        {@html row[col.name]}
+                                    {:else if col.type=='select'}
+                                        <!-- this next check is only required because a data value may have an unknown option value -->
+                                        {#if col.options.find(option=>option.value==row[col.name])}
+                                            {col.options.find(option=>option.value==row[col.name]).text}
+                                        {:else}
+                                            No option for {row[col.name]}
+                                        {/if}
+                                    {:else if col.type=='color'}
+                                        <input value={row[col.name]} type="color" disabled/>
+                                    {:else if col.type=='date'}
+                                        {row[col.name]}
+                                    {:else}
+                                        {row[col.name]}
+                                    {/if}
                                 {/if}
+                            </td>
+                        {/if}
+                    {/each}
+                    <td class="td">
+                        {#if rowIdx == rowIdxInEditMode}
+                            <div class="btnHoverGreen" on:click={()=>{rowIdxInEditMode=-1;dispatch('endedit',rowIdx);}}>
+                                {@html iconsave}
+                            </div>
+                        {:else}
+                            {#if config.options.includes('DELETE')}
+                                <div class="btnHoverRed" on:click={(e)=>dispatch('requestdeleterow',rowIdx)}>
+                                    {@html icontrash}
+                                </div>
                             {/if}
-                        </td>
-                    {/if}
-                {/each}
-                <td class="td">
-                    {#if rowIdx == rowIdxInEditMode}
-                        <div class="btnHoverGreen" on:click={()=>{rowIdxInEditMode=-1;dispatch('endedit',rowIdx);}}>
-                            {@html iconsave}
-                        </div>
-                    {:else}
-                        {#if config.options.includes('DELETE')}
-                            <div class="btnHoverRed" on:click={(e)=>dispatch('requestdeleterow',rowIdx)}>
-                                {@html icontrash}
-                            </div>
+                            {#if config.options.includes('EDIT')}
+                                <div class="btnHoverGreen" on:click|stopPropagation={(e)=>{rowIdxInEditMode=rowIdx;dispatch('startedit',rowIdx);}}>
+                                    {@html iconedit}
+                                </div>
+                            {/if}
                         {/if}
-                        {#if config.options.includes('EDIT')}
-                            <div class="btnHoverGreen" on:click|stopPropagation={(e)=>{rowIdxInEditMode=rowIdx;dispatch('startedit',rowIdx);}}>
-                                {@html iconedit}
-                            </div>
-                        {/if}
-                    {/if}
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            {/if}
         {/each}
     </table>
 </div>
