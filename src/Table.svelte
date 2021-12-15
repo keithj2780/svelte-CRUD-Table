@@ -175,7 +175,6 @@
     }
     .resizer {
         width:5px;
-        /* background-color: rgb(224, 224, 224); */
     }
     .resizer:hover {
         cursor:ew-resize;        
