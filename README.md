@@ -2,13 +2,14 @@
 
 Lightweight CRUD table written using Svelte.  
 No dependencies, reasonable functionality and no bloat.  
+MIT Licence.  
 
 ## Features
 
 - Lightweight with no dependencies, less than 200 LOC
 - data is an array of objects
 - configurable columns, show/hide, initial width, data type, column name
-- supports display & edit of several data types - text, HTML, colour, date, select/option lists
+- supports display & edit of several data types - text, HTML, colour, date, time, select/option lists
 - resizable column widths (any column can have resizing disabled)
 - double click a row to edit (can be disabled)
 - *Edit* & *Delete* buttons for each row (can be disabled)
@@ -30,7 +31,6 @@ In the interests of *no bloat*, several things are not implemented -
 - Styling
 - Lazy loading
 - NPM package. You'll probably want to style it yourself, so copy Table.svelte & svgIcon.js into your project.
-- *time* data type
 - *number* data type
 
 Much of the above could be implemented by the parent.  
