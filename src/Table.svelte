@@ -82,6 +82,8 @@
                                         </select>
                                     {:else if col.type == 'date'}
                                         <input bind:value={row[col.name]} type="date" style={'width:'+col.width+'px;'}/>
+                                    {:else if col.type == 'time'}
+                                        <input bind:value={row[col.name]} type="timee" style={'width:'+col.width+'px;'}/>
                                     {:else if col.type == 'color'}
                                         <input bind:value={row[col.name]} type="color" style={'width:'+col.width+'px;'}/>
                                     {:else if col.type == 'email'}
@@ -104,6 +106,8 @@
                                     {:else if col.type=='color'}
                                         <input value={row[col.name]} type="color" disabled/>
                                     {:else if col.type=='date'}
+                                        {row[col.name]}
+                                    {:else if col.type=='time'}
                                         {row[col.name]}
                                     {:else}
                                         {row[col.name]}
