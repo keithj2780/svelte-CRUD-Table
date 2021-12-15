@@ -1,7 +1,7 @@
 # svelte-CRUD-Table
 
-Lightweight CRUD table written using Svelte.
-No dependencies, reasonable functionality and no bloat.
+Lightweight CRUD table written using Svelte.  
+No dependencies, reasonable functionality and no bloat.  
 
 ## Features
 
@@ -52,7 +52,7 @@ The data types date, color and email are edited using <input type="xxx">. text &
 
 ## Example
 
-REPL is [here]{https://svelte.dev/repl/23b20703571a400da6eb0656d5d81ab4?version=3.44.3)
+REPL is [here](https://svelte.dev/repl/23b20703571a400da6eb0656d5d81ab4?version=3.44.3)
 
 ```
 <script>
@@ -115,17 +115,17 @@ REPL is [here]{https://svelte.dev/repl/23b20703571a400da6eb0656d5d81ab4?version=
 
 Events dispatched -
 
-- request delete of a row. The parent then deletes the row (or not).
-- when editing of a row starts.
-- when editing of a row finishes. This happens either when the user clicks the *Save* icon or clicks on a different row.
-- when a row is created. The parent can then populate with default data.
+- *requestdeleterow* request delete of a row. The parent then deletes the row (or not).
+- *startedit* when editing of a row starts.
+- *endedit* when editing of a row finishes. This happens either when the user clicks the *Save* icon or clicks on a different row.
+- *addrow* when a row is created. The parent can then populate with default data.
 
 The affected row number is passed in event.detail.  
 See example above.  
 
 ## Select Options
 
-A column can have type = 'select'.  This will allow the values to be selected from a dropdown list. The content and values of this select are specified in columns_setting[n].options[].  
+A column can have type = 'select'.  This will allow the values to be selected from a dropdown list. The content and values of this list are specified in columns_setting[n].options[].  
 
 The format is -  
 
@@ -140,4 +140,5 @@ options = [
 
 ## Warning
 
-Raw HTML may be displayed & edited using columns_setting[n].type = 'html'.  Sanitise it first or don't allow edit or don't use type='html'!  Or even better, delete that line of code from Table.svelte.
+Raw HTML may be displayed & edited using columns_setting[n].type = 'html'.  
+Sanitise it first or don't allow edit or don't use type='html'!  Or even better, delete that line of code from Table.svelte.
