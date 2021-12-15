@@ -12,7 +12,11 @@
     onMount(()=>{
         console.log(data);
     });
-
+    function addRow(e) {
+        data=[...data,{}]; 
+        rowIdxInEditMode=data.length-1;
+        dispatch('addrow',rowIdxInEditMode);
+    }
     //  column resizer
     let resizeMouseDownX=-1
     let origWidth = 0;
@@ -55,7 +59,7 @@
             {/each}
             {#if config.options.includes('CREATE')}
                 <td class="td">
-                    <div class="btnHoverGreen" on:click={()=>{data.push({}); rowIdxInEditMode=data.length-1;dispatch('reqaddrow')}}>
+                    <div class="btnHoverGreen" on:click={(e)=>addRow(e)}>
                         {@html iconcreate}
                     </div>
                 </td>

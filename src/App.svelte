@@ -6,7 +6,7 @@
 		options: ['CREATE', 'EDIT', 'DELETE','DBLCLICKEDIT'],
         row_settings : {
             firstRow: 0,            //  pagination is implemented by parent
-            lastRow:7,
+            lastRow:9999,
         },
 		columns_setting: [
 			{name: 'name', show: true, resizable:true, edit: true, width: 150, type:'text',description:'Name'},
@@ -39,20 +39,23 @@
 
 	function onStartEdit(e) {console.log('start edit',e.detail);}
     function onEndEdit(e) {console.log('end edit ',e.detail);}
-    function onAddRow() {console.log('addrow ',e.detail);}
+    function onAddRow(e) {console.log('addrow ',e.detail);}
     function requestdeleterow(e) {console.log('request delete row ',e.detail);}
 </script>
 
 <main>
     <Table
         config={table_config}
-        data={myData}
+        bind:data={myData}
         on:startedit={onStartEdit}
         on:endedit={onEndEdit}
         on:addrow={onAddRow}
         on:requestdeleterow={(e)=>requestdeleterow(e)}
         />
-
+	<hr>
+	<pre>
+		{JSON.stringify(myData,null,2)}
+	</pre>
 </main>
 
 <style>
@@ -63,11 +66,11 @@
 		margin: 0 auto;
 	}
 
-	h1 {
+	pre {
 		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+		font-size: 1em;
+		font-weight: 200;
+		text-align: left;
 	}
 
 	@media (min-width: 640px) {
