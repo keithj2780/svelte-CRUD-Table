@@ -1,10 +1,11 @@
 # svelte-CRUD-Table
 
-Lightweight CRUD table with no dependencies, reasonable functionality and no bloat.
+Lightweight CRUD table written using Svelte.
+No dependencies, reasonable functionality and no bloat.
 
 ## Features
 
-- Lightweight with no dependencies & less than 200 LOC
+- Lightweight with no dependencies, less than 200 LOC
 - data is an array of objects
 - configurable columns, show/hide, initial width, data type, column name
 - supports display & edit of several data types - text, HTML, colour, date, select/option lists
@@ -16,8 +17,11 @@ Lightweight CRUD table with no dependencies, reasonable functionality and no blo
 - only a portion of the rows in the array can be displayed. This facilitates pagination by the parent.
 - configurable text alignment for each column - left, center, right
 - data is updated as soon as it is edited
+- CRUD is optional. This can be used simply to Display an array of objects
 
 ## Not implemented
+
+In the interests of *no bloat*, several things are not implemented -  
 
 - Row sorting
 - Hiding of columns by user
@@ -26,21 +30,29 @@ Lightweight CRUD table with no dependencies, reasonable functionality and no blo
 - Styling
 - Lazy loading
 - NPM package. You'll probably want to style it yourself, so copy Table.svelte & svgIcon.js into your project.
-- *Time* data type
+- *time* data type
+- *number* data type
 
 Much of the above could be implemented by the parent.  
 
 ## Data Types
 
 - text is just text
+- email is just text
 - html is displayed using {@html...}   **Be very careful**
 - select has the value of the option
 - date must be format YYYY-MM-DD
 - colour must be format of #rrggbb
 
-The above are all edited using <input type="xxx">  except for text & html which use <textarea>
+The data types date, color and email are edited using <input type="xxx">. text & html use <textarea>
+
+## Known bugs
+
+- Resizable div doesn't extend to fill the header div. This happens when some headers are 2 or more lines high, and some aren't.
 
 ## Example
+
+REPL is [here]{https://svelte.dev/repl/23b20703571a400da6eb0656d5d81ab4?version=3.44.3)
 
 ```
 <script>
@@ -64,9 +76,9 @@ The above are all edited using <input type="xxx">  except for text & html which 
     };
 
     table_config.columns_setting[3].options = [
-        {value:'r' , text:'Red'},
+        {value:'r' , text:'Rouge'},
         {value:'g' , text:'Green'},
-        {value:'b' , text:'Blue'},
+        {value:'b' , text:'Bleu'},
         {value:'y' , text:'Yuck'}
     ];
 

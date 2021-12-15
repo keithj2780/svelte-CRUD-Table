@@ -1,6 +1,6 @@
 <script>
     import { createEventDispatcher, onMount } from 'svelte';
-    import {icontrash, iconedit, iconcreate, iconsave} from './svgIcon'
+    import { icontrash, iconedit, iconcreate, iconsave} from './svgIcon'
 
     export let config;
     export let data;
@@ -9,9 +9,7 @@
 
     let dispatch = createEventDispatcher();
 
-    onMount(()=>{
-        console.log(data);
-    });
+    onMount(()=>{});
     function addRow(e) {
         data=[...data,{}]; 
         rowIdxInEditMode=data.length-1;
@@ -29,8 +27,7 @@
     function resizemousemove(e,i) {
         if (resizeMouseDownX == -1) return;
         let delta = e.clientX-resizeMouseDownX;
-        config.columns_setting[i].width = Math.max(5,origWidth+delta);        //  min of at least 5 pixels wide
-        //console.log(origWidth,delta,i,resizeMouseDownX);
+        config.columns_setting[i].width = Math.max(6,origWidth+delta);        //  min of at least 6 pixels wide
     }
     function resizemouseup(e,i) {
         resizeMouseDownX = -1;
@@ -43,7 +40,7 @@
         <thead class="colHeader">
             {#each config.columns_setting as col,colIdx}
                 {#if col.show}
-                    <td style={'width:'+col.width+'px'}>
+                    <td class="th" style={'width:'+col.width+'px'}>
                         <div  class="resizableHeader">
                             <div class="colDesc">{col.description}</div>
                             {#if col.resizable}
@@ -58,7 +55,7 @@
                 {/if}
             {/each}
             {#if config.options.includes('CREATE')}
-                <td class="td">
+                <td class="th">
                     <div class="btnHoverGreen" on:click={(e)=>addRow(e)}>
                         {@html iconcreate}
                     </div>
@@ -74,7 +71,7 @@
                     >
                     {#each config.columns_setting as col}
                         {#if col.show}
-                            <td class="td" class:tdLeft={col.align=='left'} class:tdRight={col.align=='right'} class:tdCenter={col.align=='center'}>
+                            <td class="td {col.align?"td"+col.align:""}">
                                 <!-- If we're editing this row -->
                                 {#if rowIdx == rowIdxInEditMode && col.edit}
                                     {#if col.type == 'select'}
@@ -115,24 +112,20 @@
                             </td>
                         {/if}
                     {/each}
-                    <td class="td">
-                        {#if rowIdx == rowIdxInEditMode}
-                            <div class="btnHoverGreen" on:click={()=>{rowIdxInEditMode=-1;dispatch('endedit',rowIdx);}}>
-                                {@html iconsave}
-                            </div>
-                        {:else}
-                            {#if config.options.includes('DELETE')}
-                                <div class="btnHoverRed" on:click={(e)=>dispatch('requestdeleterow',rowIdx)}>
-                                    {@html icontrash}
-                                </div>
+                    {#if config.options.includes('DELETE') || config.options.includes('EDIT')}
+                        <td class="td">
+                            {#if rowIdx == rowIdxInEditMode}
+                                <div class="btnHoverGreen" on:click={()=>{rowIdxInEditMode=-1;dispatch('endedit',rowIdx);}}>{@html iconsave}</div>
+                            {:else}
+                                {#if config.options.includes('DELETE')}
+                                    <div class="btnHoverRed" on:click={(e)=>dispatch('requestdeleterow',rowIdx)}>{@html icontrash}</div>
+                                {/if}
+                                {#if config.options.includes('EDIT')}
+                                    <div class="btnHoverGreen" on:click|stopPropagation={(e)=>{rowIdxInEditMode=rowIdx;dispatch('startedit',rowIdx);}}>{@html iconedit}</div>
+                                {/if}
                             {/if}
-                            {#if config.options.includes('EDIT')}
-                                <div class="btnHoverGreen" on:click|stopPropagation={(e)=>{rowIdxInEditMode=rowIdx;dispatch('startedit',rowIdx);}}>
-                                    {@html iconedit}
-                                </div>
-                            {/if}
-                        {/if}
-                    </td>
+                        </td>
+                    {/if}
                 </tr>
             {/if}
         {/each}
@@ -142,6 +135,7 @@
 <style>
     table {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        border-collapse: collapse;
     }
     textarea {
         resize: vertical;
@@ -154,7 +148,8 @@
     .colHeader {
         font-size: 20px;
         text-align: center;
-        background-color: rgb(218, 218, 218);
+        background-color: rgb(201, 201, 201);
+        border: 1px solid gray;
     }
     .trOdd {
         background-color: rgb(228, 228, 228);
@@ -173,22 +168,27 @@
     }
     .resizableHeader {
         display:flex;
-        justify-content: space-evenly;
+        align-items: stretch;
     }
-    .tdLeft {
+    .th {
+        border-right: 2px solid rgb(170, 170, 170);
+    }
+    .tdleft {
         text-align: left;
     }
-    .tdRight {
+    .tdright {
         text-align: right;
     }
-    .tdCenter {
+    .tdcenter {
         text-align: center;
     }
     .colDesc {
         height:100%;
+        width:100%;
     }
     .resizer {
-        width:5px;
+        width:6px;
+        transform: translate(3px, 0px);
     }
     .resizer:hover {
         cursor:ew-resize;        
