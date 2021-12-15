@@ -9,12 +9,12 @@
             lastRow:9999,
         },
 		columns_setting: [
-			{name: 'name', show: true, resizable:true, edit: true, width: 150, type:'text',description:'Name'},
-			{name: 'role', show: true, resizable:true, edit: true, width: 350, type:'html',description: 'Role'},
-			{name: 'email', show: true, resizable:true, edit: true, width: 350, type:'email',description: 'Email'},
-			{name: 'favCol', show: true, resizable:true, edit: true, width: 150, type: 'select', options:[], description: 'Fav Colour'},
-			{name: 'color', show: true, resizable:true, edit: true, width: 100, type: 'color', description: 'Assigned Colour', },
-			{name: 'dt', show: true, resizable:true, edit: true, width: 140, type: 'date', description: 'Date', },
+			{name: 'name', show: true, resizable:true, edit: true, width: 150, type:'text', align:'left', description:'Name'},
+			{name: 'role', show: true, resizable:true, edit: true, width: 350, type:'html', align:'left', description: 'Role'},
+			{name: 'email', show: true, resizable:true, edit: true, width: 350, type:'email', align:'right', description: 'Email'},
+			{name: 'favCol', show: true, resizable:true, edit: true, width: 150, type: 'select', options:[], align:'center', description: 'Fav Colour'},
+			{name: 'color', show: true, resizable:true, edit: true, width: 100, type: 'color', align:'center', description: 'Assigned Colour', },
+			{name: 'dt', show: true, resizable:true, edit: true, width: 140, type: 'date', align:'center', description: 'Date', },
 		],
 	};
 

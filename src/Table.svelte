@@ -64,7 +64,7 @@
                     </div>
                 </td>
             {/if}
-     </thead>
+        </thead>
 
         {#each data as row, rowIdx}
             {#if rowIdx >= config.row_settings.firstRow && rowIdx < config.row_settings.lastRow}
@@ -74,7 +74,7 @@
                     >
                     {#each config.columns_setting as col}
                         {#if col.show}
-                            <td class="td">
+                            <td class="td" class:tdLeft={col.align=='left'} class:tdRight={col.align=='right'} class:tdCenter={col.align=='center'}>
                                 <!-- If we're editing this row -->
                                 {#if rowIdx == rowIdxInEditMode && col.edit}
                                     {#if col.type == 'select'}
@@ -154,6 +154,7 @@
     .colHeader {
         font-size: 20px;
         text-align: center;
+        background-color: rgb(218, 218, 218);
     }
     .trOdd {
         background-color: rgb(228, 228, 228);
@@ -172,7 +173,16 @@
     }
     .resizableHeader {
         display:flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
+    }
+    .tdLeft {
+        text-align: left;
+    }
+    .tdRight {
+        text-align: right;
+    }
+    .tdCenter {
+        text-align: center;
     }
     .colDesc {
         height:100%;
