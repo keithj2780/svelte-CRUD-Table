@@ -66,8 +66,8 @@
         {#each data as row, rowIdx}
             {#if rowIdx >= config.row_settings.firstRow && rowIdx < config.row_settings.lastRow}
                 <tr class={rowIdx%2?'trOdd':'trEven'} 
-                    on:click={()=>{if (rowIdxInEditMode!=rowIdx) rowIdxInEditMode=-1;}}
-                    on:dblclick={()=>{if (config.options.includes('DBLCLICKEDIT')) rowIdxInEditMode=rowIdx;}}
+                    on:click={()=>{if (rowIdxInEditMode != -1 && rowIdxInEditMode!=rowIdx) {dispatch('endedit',rowIdxInEditMode);rowIdxInEditMode=-1;}}}
+                    on:dblclick={()=>{if (config.options.includes('DBLCLICKEDIT')) { dispatch('startedit',rowIdx);rowIdxInEditMode=rowIdx;}}}
                     >
                     {#each config.columns_setting as col}
                         {#if col.show}
