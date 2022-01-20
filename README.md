@@ -44,7 +44,8 @@ Much of the above could be implemented by the parent.
 - date must be format YYYY-MM-DD
 - colour must be format of #rrggbb
 
-The data types date, color and email are edited using <input type="xxx">. text & html use <textarea>
+The data types date, color and email are edited using &lt;input type="xxx">. 
+text & html use <textarea>
 
 ## Known bugs
 
@@ -52,7 +53,7 @@ The data types date, color and email are edited using <input type="xxx">. text &
 
 ## Example
 
-REPL is [here](https://svelte.dev/repl/23b20703571a400da6eb0656d5d81ab4?version=3.44.3)
+REPL is [here](https://svelte.dev/repl/1d086bc8c4c3413e950b8f9ee644e267?version=3.46.2)
 
 ```
 <script>
